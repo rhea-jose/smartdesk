@@ -56,7 +56,30 @@ category, priority, sentiment, channel, product.
 - `GET /tickets`, `GET /tickets/{id}`, `PATCH /tickets/{id}`, `DELETE /tickets/{id}`
   — standard ticket CRUD (see Day 1).
   
+## Frontend
+
+React (Vite) single-page app with two parts:
+- **Ticket submission form** — customers submit a title and description; the
+  ticket is created via `POST /tickets` and immediately shows its AI-predicted
+  category and priority.
+- **Agent dashboard** — lists all tickets with category, priority, and a status
+  dropdown (open / in_progress / resolved), filterable by status. Status changes
+  are saved via `PATCH /tickets/{id}` with an optimistic UI update.
+
+### Running the frontend
+
+\`\`\`bash
+cd frontend
+npm install
+npm run dev
+\`\`\`
+
+Requires the backend running separately on `http://127.0.0.1:8000` (CORS is
+configured to allow `http://localhost:5173`).
+
 ## Setup
+This project has two parts: `backend/` (FastAPI + ML) and `frontend/` (React).
+Run both simultaneously in separate terminals.
 
 \`\`\`bash
 cd backend
@@ -86,12 +109,13 @@ python ml/train_category.py
 python ml/train_priority.py
 \`\`\`
 
+
 ## Status
 
 - [x] Day 1: Backend, ticket CRUD, tests
 - [x] Day 2: Dataset seeded (20k tickets)
 - [x] Day 3: Category and priority classifiers trained and evaluated
 - [x] Day 4: Wire models into `/predict` API endpoint
-- [ ] Day 5: React frontend
+- [x] Day 5: React frontend
 - [ ] Day 6: Integration, CI, deployment
 - [ ] Day 7: Polish, demo video
