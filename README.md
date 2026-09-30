@@ -119,3 +119,4 @@ python ml/train_priority.py
 - [x] Day 5: React frontend
 - [ ] Day 6: Integration, CI, deployment
 - [ ] Day 7: Polish, demo video
+# Render auto-deploy test
