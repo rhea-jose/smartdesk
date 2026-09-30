@@ -30,6 +30,7 @@ def override_get_db():
 app.dependency_overrides[get_db]=override_get_db
 
 client= TestClient(app)
+
 @pytest.fixture(autouse=True)
 def fresh_db():
     Base.metadata.drop_all(bind=engine)
@@ -127,4 +128,22 @@ def test_filter_by_status():
 
     assert len(r.json()) == 1
     
+def test_predict_endpoint():
+    r=client.post('/predict',json={"text":"My order has not arrived after two weeks"})
+    assert r.status_code==200
+    body = r.json()
+    assert "category" in body
+    assert "priority" in body
 
+def test_predict_rejects_short_text():
+    r=client.post('/predict',json={"text":"hi"})
+    assert r.status_code==422
+
+def test_create_ticket_auto_classifies():
+    r=client.post('/tickets',json={
+        "title":"I was charged twice",
+        "description":"I was charged twice for my subscription this month"
+    })
+    body=r.json()
+    assert body["category"] is not None
+    assert body["priority"] is not None
