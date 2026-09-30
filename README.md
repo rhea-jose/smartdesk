@@ -77,6 +77,19 @@ npm run dev
 Requires the backend running separately on `http://127.0.0.1:8000` (CORS is
 configured to allow `http://localhost:5173`).
 
+## Deployment
+
+- **Backend:** Render (free tier) — https://smartdesk-api-mvvl.onrender.com
+- **Frontend:** Vercel — https://smart-desk-pink.vercel.app
+- **CI:** GitHub Actions runs pytest on every push to `main`.
+
+**Known limitation:** Render's free tier has an ephemeral filesystem, so the
+SQLite database resets on redeploys/restarts. The backend auto-seeds itself
+with the 20k-ticket dataset on startup if the table is empty or has fewer
+than 100 rows, so the app self-heals but any manual status changes made
+during a demo won't persist across a backend restart. A production version
+would use a managed Postgres database instead.
+
 ## Setup
 This project has two parts: `backend/` (FastAPI + ML) and `frontend/` (React).
 Run both simultaneously in separate terminals.
@@ -117,6 +130,6 @@ python ml/train_priority.py
 - [x] Day 3: Category and priority classifiers trained and evaluated
 - [x] Day 4: Wire models into `/predict` API endpoint
 - [x] Day 5: React frontend
-- [ ] Day 6: Integration, CI, deployment
+- [x] Day 6: Integration, CI, deployment
 - [ ] Day 7: Polish, demo video
 # Render auto-deploy test
