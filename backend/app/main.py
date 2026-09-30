@@ -16,7 +16,7 @@ Base.metadata.create_all(bind=engine)
 from sqlalchemy.orm import Session as _Session
 with _Session(engine) as _db:
     _ticket_count = _db.query(models.Ticket).count()
-    if _ticket_count == 0:
+    if _ticket_count < 100:
         try:
             from scripts.seed_data import main as seed_main
             print("Database empty, seeding...")
@@ -24,7 +24,7 @@ with _Session(engine) as _db:
         except Exception as e:
             print(f"Seeding skipped or failed: {e}")
 
-            
+
 from fastapi.middleware.cors import CORSMiddleware
 
 app= FastAPI(title="SmartDesk")
