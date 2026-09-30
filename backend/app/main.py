@@ -11,6 +11,20 @@ class PredictRequest(BaseModel):
     text: str=Field(min_length=5)
 
 Base.metadata.create_all(bind=engine)
+# On startup, seed the database if it's empty (handles Render's free-tier
+# ephemeral disk, which wipes data on redeploy/restart).
+from sqlalchemy.orm import Session as _Session
+with _Session(engine) as _db:
+    _ticket_count = _db.query(models.Ticket).count()
+    if _ticket_count == 0:
+        try:
+            from scripts.seed_data import main as seed_main
+            print("Database empty, seeding...")
+            seed_main()
+        except Exception as e:
+            print(f"Seeding skipped or failed: {e}")
+
+            
 from fastapi.middleware.cors import CORSMiddleware
 
 app= FastAPI(title="SmartDesk")

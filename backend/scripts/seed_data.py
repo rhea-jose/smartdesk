@@ -11,7 +11,8 @@ import pandas as pd
 from app.database import SessionLocal,Base,engine
 
 from app import models
-CSV_PATH="../data/customer_support_tickets.csv"
+_BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # backend/
+CSV_PATH = os.path.join(_BASE_DIR, "..", "data", "customer_support_tickets_noisy.csv")
 import random
 
 STATUS_WEIGHTS = ["open"] * 5 + ["in_progress"] * 3 + ["resolved"] * 2  # ~50/30/20

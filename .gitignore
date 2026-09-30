@@ -4,4 +4,5 @@ __pycache__/
 .env
 node_modules/
 
-data/*.csv
+data/customer_support_tickets.csv
+data/customer_support_tickets-selected-columns.csv
