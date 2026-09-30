@@ -47,6 +47,15 @@ category, priority, sentiment, channel, product.
   strongly grounded in message text — in a real system, priority would likely need
   additional signals (customer tier, SLA rules, sentiment) beyond raw text alone.
 
+## API
+
+- `POST /tickets` — creates a ticket; `category` and `priority` are predicted
+  automatically from the description at creation time (no manual labeling needed).
+- `POST /predict` — standalone endpoint that returns `{category, priority}` for
+  any text, without creating a ticket. Useful for testing the model directly.
+- `GET /tickets`, `GET /tickets/{id}`, `PATCH /tickets/{id}`, `DELETE /tickets/{id}`
+  — standard ticket CRUD (see Day 1).
+  
 ## Setup
 
 \`\`\`bash
@@ -82,7 +91,7 @@ python ml/train_priority.py
 - [x] Day 1: Backend, ticket CRUD, tests
 - [x] Day 2: Dataset seeded (20k tickets)
 - [x] Day 3: Category and priority classifiers trained and evaluated
-- [ ] Day 4: Wire models into `/predict` API endpoint
+- [x] Day 4: Wire models into `/predict` API endpoint
 - [ ] Day 5: React frontend
 - [ ] Day 6: Integration, CI, deployment
 - [ ] Day 7: Polish, demo video
